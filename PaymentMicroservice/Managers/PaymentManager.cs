@@ -1,68 +1,70 @@
 ﻿using PaymentMicroservice.Core.Enums;
 using PaymentMicroservice.Core.Models;
+using PaymentMicroservice.Core.ModelVIew;
 using PaymentMicroservice.Data.Repositories;
 using PaymentMicroservice.Data.Validators;
+using PaymentMicroservice.Repositories;
 using System;
 using System.Threading.Tasks;
 
 namespace PaymentMicroservice.Managers
 {
-    public class PaymentManager
+    public class PaymentManager : IPaymentManager
     {
-        CheckingAccountRepository CheckingAccountRepository;
-        PaymentRepository PaymentRepository;
-        FeeRepository FeeRepository;
-        EntryRepository EntryRepository;
-        public PaymentManager()
-        {
-        }
+        readonly ICheckingAccountRepository _checkingAccountRepository;
+        readonly IPaymentRepository _paymentRepository;
+        readonly IFeeRepository _feeRepository;
+        readonly IEntryRepository _entryRepository;
 
-        public PaymentManager(CheckingAccountRepository accountRepository, PaymentRepository paymentRepository, FeeRepository feeRepository, EntryRepository entryRepository)
+        public PaymentManager(ICheckingAccountRepository accountRepository, IPaymentRepository paymentRepository, IFeeRepository feeRepository, IEntryRepository entryRepository)
         {
-            CheckingAccountRepository = accountRepository;
-            PaymentRepository = paymentRepository;
-            FeeRepository = feeRepository;
-            EntryRepository = entryRepository;
+            _checkingAccountRepository = accountRepository;
+            _paymentRepository = paymentRepository;
+            _feeRepository = feeRepository;
+            _entryRepository = entryRepository;
         }
-        public async Task<Payment> PostPayment(int sourceAccountId, int destinationAccountId, double transactionValue, int numberOfPortions)
+        public async Task<Payment> PostPayment(PaymentViewPost paymentViewPost)
         {
-            Fee fee = FeeRepository.GetFeeByPortion(numberOfPortions);
-            CheckingAccount sourceAccount = await CheckingAccountRepository.GetAccountById(sourceAccountId);
-            CheckingAccount destinationAccount = await CheckingAccountRepository.GetAccountById(destinationAccountId);
+            Fee fee = _feeRepository.GetFeeByPortion(paymentViewPost.NumberOfPortions);
+            CheckingAccount sourceAccount = await _checkingAccountRepository.GetAccountById(paymentViewPost.SourceAccountId);
+            CheckingAccount destinationAccount = await _checkingAccountRepository.GetAccountById(paymentViewPost.DestinationAccountId);
 
-            var totalTransactionValue = transactionValue * (1 + fee.Value / 100);
+            var totalTransactionValue = paymentViewPost.Amount * (1 + fee.Value / 100);
             var portion = totalTransactionValue / fee.NumberOfPortions;
-
-            if (sourceAccount.Balance < totalTransactionValue)
+            if (sourceAccount.Balance < portion)
             {
                 return null;
             }
 
-            Payment payment = new Payment(transactionValue, sourceAccount.Id, destinationAccount.Id, DateTime.Now);
-            PaymentValidator paymaentValidator = new PaymentValidator();
-            paymaentValidator.Validate(payment);
-
             sourceAccount.Balance = sourceAccount.Balance - portion;
-            destinationAccount.Balance = destinationAccount.Balance + transactionValue;
+            destinationAccount.Balance = destinationAccount.Balance + portion;
 
-            var destinationAccountEntry = new Entry(totalTransactionValue, DateTime.Now, EntryTypeEnum.CREDIT.ToString(), destinationAccountId);
-            var sourceAccountEntry = new Entry(portion, DateTime.Now, EntryTypeEnum.DEBIT.ToString(), sourceAccountId);
-            
+            var destinationAccountEntry = new Entry(portion, DateTime.Now, EntryTypeEnum.CREDIT.ToString(), paymentViewPost.DestinationAccountId);
+            var sourceAccountEntry = new Entry(portion, DateTime.Now, EntryTypeEnum.DEBIT.ToString(), paymentViewPost.SourceAccountId);
+
             if (fee.NumberOfPortions > 1)
             {
                 for (int i = 1; i < fee.NumberOfPortions; i++)
                 {
-                    EntryRepository.InsertEntry(new Entry(portion, DateTime.Now.AddMonths(i), EntryTypeEnum.DEBIT.ToString(), sourceAccountId));
+                    _entryRepository.InsertEntry(new Entry(portion, DateTime.Now.AddMonths(i), EntryTypeEnum.DEBIT.ToString(), paymentViewPost.SourceAccountId));
+                    _entryRepository.InsertEntry(new Entry(portion, DateTime.Now.AddMonths(i), EntryTypeEnum.CREDIT.ToString(), paymentViewPost.DestinationAccountId));
                 }
             }
 
-            EntryRepository.InsertEntry(sourceAccountEntry);
-            EntryRepository.InsertEntry(destinationAccountEntry);
-            PaymentRepository.InsertPayment(payment);
-            CheckingAccountRepository.Save();
+            var payment = new Payment(paymentViewPost);
+
+            _entryRepository.InsertEntry(sourceAccountEntry);
+            _entryRepository.InsertEntry(destinationAccountEntry);
+            _paymentRepository.InsertPayment(payment);
+            _checkingAccountRepository.Save();
 
             return payment;
 
+        }
+
+        public async Task<Payment> GetPayment(int id)
+        {
+            return await _paymentRepository.GetPaymentById(id);
         }
     }
 }

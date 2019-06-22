@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace PaymentMicroservice.Data.Repositories
 {
-    public class PaymentRepository : IPaymentRepostory, IDisposable
+    public class PaymentRepository : IPaymentRepository, IDisposable
     {
         private readonly TransactionContext _context;
         public PaymentRepository(TransactionContext context)

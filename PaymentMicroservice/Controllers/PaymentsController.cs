@@ -1,6 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation.Results;
+using Microsoft.AspNetCore.Mvc;
 using PaymentMicroservice.Core.Models;
+using PaymentMicroservice.Core.ModelVIew;
+using PaymentMicroservice.Data.Validators;
 using PaymentMicroservice.Managers;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -10,21 +15,42 @@ namespace PaymentMicroservice.Controllers
     [ApiController]
     public class PaymentsController : ControllerBase
     {
+        readonly IPaymentManager _paymentManager;
+        public PaymentsController(IPaymentManager paymentManager)
+        {
+            _paymentManager = paymentManager;
+        }
+
+
+        // POST api/payment
+        [HttpGet("{id}")]
+        public async Task<OkObjectResult> Get(int id)
+        {
+            var result = await _paymentManager.GetPayment(id);
+            return Ok(result);
+        }
         // POST api/payment
         [HttpPost]
-        public async Task<ActionResult<Payment>> Post([FromBody] int sourceAccount, int destinationAccount, double value, int numberOfPortions)
+        public async Task<ObjectResult> Post([FromBody] Payment payment)
         {
-            if (numberOfPortions < 1 || numberOfPortions > 3)
+            PaymentValidator paymaentValidator = new PaymentValidator();
+            ValidationResult valitaionResult = paymaentValidator.Validate(payment);
+            if (!valitaionResult.IsValid)
             {
-                return BadRequest("Number of portions Invalid");
+                List<string> errors = new List<string>();
+                foreach (ValidationFailure failure in valitaionResult.Errors)
+                {
+                    errors.Add(failure.ErrorMessage);
+                }
+                return BadRequest(String.Join("\n",errors));
             }
 
-            PaymentManager checkingAccountManager = new PaymentManager();
-            var payment = await checkingAccountManager.PostPayment(sourceAccount, destinationAccount, value, numberOfPortions);
+            
+            var result = await _paymentManager.PostPayment(new PaymentViewPost(payment));
 
             if (payment != null)
             {
-                return CreatedAtAction("Payment Post", payment);
+                return Created("/"+result.Id,result);
             }
             else
             {

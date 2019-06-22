@@ -2,7 +2,7 @@
 
 namespace PaymentMicroservice.Data.Repositories
 {
-    interface IEntryRepository
+    public interface IEntryRepository
     {
         void InsertEntry(Entry entry);
     }

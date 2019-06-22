@@ -1,5 +1,4 @@
 ﻿using Data;
-using PaymentMicroservice.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PaymentMicroservice.Data.Repositories;
+using PaymentMicroservice.Managers;
 using PaymentMicroservice.Repositories;
 
 namespace PaymentMicroservice
@@ -29,7 +29,8 @@ namespace PaymentMicroservice
             services.AddTransient<ICheckingAccountRepository, CheckingAccountRepository>();
             services.AddTransient<IEntryRepository, EntryRepository>();
             services.AddTransient<IFeeRepository, FeeRepository>();
-            services.AddTransient<IPaymentRepostory, PaymentRepository>();
+            services.AddTransient<IPaymentRepository, PaymentRepository>();
+            services.AddTransient<IPaymentManager, PaymentManager>();
 
         }
 

@@ -3,7 +3,7 @@ using System;
 
 namespace PaymentMicroservice.Repositories
 {
-    interface IFeeRepository : IDisposable
+    public interface IFeeRepository : IDisposable
     {
         Fee GetFeeByPortion(int portion);
     }

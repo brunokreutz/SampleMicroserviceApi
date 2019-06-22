@@ -1,22 +1,15 @@
 
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.ApplicationParts;
-using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.Mvc.ViewComponents;
 using Microsoft.AspNetCore.TestHost;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
+using PaymentMicroservice.Core.Models;
 using System;
-using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Xunit;
 using Xunit.Sdk;
 
 namespace PaymentMicroservice.Test
@@ -40,10 +33,12 @@ namespace PaymentMicroservice.Test
                 .UseStartup<Startup>());
             var _client = server.CreateClient();
             // Arrange 
-            var json = "sourceAccount : 1, destinationAccount : 2, value : 100, numberOfPortions : 2";
+            
 
+            var json = "{\"Amount\":100.0,\"SourceAccountId\":1,\"DestinationAccountId\":2,\"NumberOfPortions\":2}";
+            var str = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _client.PostAsync("/api/payments", new StringContent(json, Encoding.UTF8, "application/json"));
+            var response = await _client.PostAsync("/api/payments", str);
 
             //Act
 

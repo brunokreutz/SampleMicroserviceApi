@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PaymentMicroservice.Core.ModelVIew;
+using System;
 
 namespace PaymentMicroservice.Core.Models
 {
@@ -9,13 +10,19 @@ namespace PaymentMicroservice.Core.Models
         public int SourceAccountId { get; set; }
         public int DestinationAccountId { get; set; }
         public DateTime DateTime { get; set; }
+        public int NumberOfPortions { get; set; }
 
-        public Payment(double amount, int sourceAccountId, int destinationAccountId, DateTime dateTime)
+        public Payment()
         {
-            Amount = amount;
-            SourceAccountId = sourceAccountId;
-            DestinationAccountId = destinationAccountId;
-            DateTime = dateTime;
+        }
+
+        public Payment(PaymentViewPost paymentViewPost)
+        {
+            Amount = paymentViewPost.Amount;
+            SourceAccountId = paymentViewPost.SourceAccountId;
+            DestinationAccountId = paymentViewPost.DestinationAccountId;
+            DateTime = DateTime.Now;
+            NumberOfPortions = paymentViewPost.NumberOfPortions;
         }
     }
 }

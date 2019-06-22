@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace PaymentMicroservice.Data.Repositories
 {
-    interface IPaymentRepostory : IDisposable
+    public interface IPaymentRepository : IDisposable
     {
         Task<Payment> GetPaymentById(int id);
         void InsertPayment(Payment payment);

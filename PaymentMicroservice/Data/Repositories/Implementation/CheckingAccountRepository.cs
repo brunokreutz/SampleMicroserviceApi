@@ -1,6 +1,6 @@
 ﻿using Data;
-using PaymentMicroservice.Repositories;
 using PaymentMicroservice.Core.Models;
+using PaymentMicroservice.Repositories;
 using System;
 using System.Threading.Tasks;
 

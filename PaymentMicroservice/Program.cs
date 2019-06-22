@@ -1,11 +1,7 @@
 ﻿using Data;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using PaymentMicroservice.Core.Models;
-using System;
-using System.Linq;
 
 namespace PaymentMicroservice
 {
@@ -29,6 +25,6 @@ namespace PaymentMicroservice
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();
-        
+
     }
 }

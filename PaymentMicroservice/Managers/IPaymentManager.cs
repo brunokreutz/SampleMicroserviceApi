@@ -1,10 +1,12 @@
 ﻿using PaymentMicroservice.Core.Models;
+using PaymentMicroservice.Core.ModelVIew;
 using System.Threading.Tasks;
 
 namespace PaymentMicroservice.Managers
 {
-    interface IPaymentManager
+    public interface IPaymentManager
     {
-        Task<Payment> PostPayment(int sourceAcc, int destinationAcc, double transactionValue, int numberOfPortions);
+        Task<Payment> PostPayment(PaymentViewPost paymentViewPost);
+        Task<Payment> GetPayment(int id);
     }
 }
