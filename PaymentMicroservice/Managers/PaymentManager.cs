@@ -2,7 +2,6 @@
 using PaymentMicroservice.Core.Models;
 using PaymentMicroservice.Core.ModelVIew;
 using PaymentMicroservice.Data.Repositories;
-using PaymentMicroservice.Data.Validators;
 using PaymentMicroservice.Repositories;
 using System;
 using System.Threading.Tasks;
@@ -29,8 +28,8 @@ namespace PaymentMicroservice.Managers
             CheckingAccount sourceAccount = await _checkingAccountRepository.GetAccountById(paymentViewPost.SourceAccountId);
             CheckingAccount destinationAccount = await _checkingAccountRepository.GetAccountById(paymentViewPost.DestinationAccountId);
 
-            var totalTransactionValue = paymentViewPost.Amount * (1 + fee.Value / 100);
-            var portion = totalTransactionValue / fee.NumberOfPortions;
+            paymentViewPost.Amount = paymentViewPost.Amount * ((100 + fee.Value) / 100);
+            var portion = paymentViewPost.Amount / fee.NumberOfPortions;
             if (sourceAccount.Balance < portion)
             {
                 return null;
@@ -39,22 +38,15 @@ namespace PaymentMicroservice.Managers
             sourceAccount.Balance = sourceAccount.Balance - portion;
             destinationAccount.Balance = destinationAccount.Balance + portion;
 
-            var destinationAccountEntry = new Entry(portion, DateTime.Now, EntryTypeEnum.CREDIT.ToString(), paymentViewPost.DestinationAccountId);
-            var sourceAccountEntry = new Entry(portion, DateTime.Now, EntryTypeEnum.DEBIT.ToString(), paymentViewPost.SourceAccountId);
-
-            if (fee.NumberOfPortions > 1)
-            {
-                for (int i = 1; i < fee.NumberOfPortions; i++)
-                {
-                    _entryRepository.InsertEntry(new Entry(portion, DateTime.Now.AddMonths(i), EntryTypeEnum.DEBIT.ToString(), paymentViewPost.SourceAccountId));
-                    _entryRepository.InsertEntry(new Entry(portion, DateTime.Now.AddMonths(i), EntryTypeEnum.CREDIT.ToString(), paymentViewPost.DestinationAccountId));
-                }
-            }
-
             var payment = new Payment(paymentViewPost);
+           
+            for (int i = 0; i < fee.NumberOfPortions; i++)
+            {
+                _entryRepository.InsertEntry(new Entry(portion, DateTime.Now.AddMonths(i), EntryTypeEnum.DEBIT.ToString(), paymentViewPost.SourceAccountId));
+                _entryRepository.InsertEntry(new Entry(portion, DateTime.Now.AddMonths(i), EntryTypeEnum.CREDIT.ToString(), paymentViewPost.DestinationAccountId));
+            }
+            
 
-            _entryRepository.InsertEntry(sourceAccountEntry);
-            _entryRepository.InsertEntry(destinationAccountEntry);
             _paymentRepository.InsertPayment(payment);
             _checkingAccountRepository.Save();
 

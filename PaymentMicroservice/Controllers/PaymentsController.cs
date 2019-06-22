@@ -5,7 +5,6 @@ using PaymentMicroservice.Core.ModelVIew;
 using PaymentMicroservice.Data.Validators;
 using PaymentMicroservice.Managers;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -42,15 +41,15 @@ namespace PaymentMicroservice.Controllers
                 {
                     errors.Add(failure.ErrorMessage);
                 }
-                return BadRequest(String.Join("\n",errors));
+                return BadRequest(String.Join("\n", errors));
             }
 
-            
+
             var result = await _paymentManager.PostPayment(new PaymentViewPost(payment));
 
             if (payment != null)
             {
-                return Created("/"+result.Id,result);
+                return Created("/" + result.Id, result);
             }
             else
             {

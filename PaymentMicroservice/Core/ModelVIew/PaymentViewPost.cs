@@ -1,8 +1,5 @@
 ﻿using PaymentMicroservice.Core.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PaymentMicroservice.Core.ModelVIew
 {
