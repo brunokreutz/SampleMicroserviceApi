@@ -1,5 +1,5 @@
 ﻿using Data;
-using Microservice_Simple_API.Repositories;
+using PaymentMicroservice.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PaymentMicroservice.Data.Repositories;
 using PaymentMicroservice.Repositories;
 
-namespace Microservice_Simple_API
+namespace PaymentMicroservice
 {
     public class Startup
     {
@@ -24,7 +24,7 @@ namespace Microservice_Simple_API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddDbContext<DBContext>(opt =>
+            services.AddDbContext<TransactionContext>(opt =>
                 opt.UseInMemoryDatabase("Database"));
             services.AddTransient<ICheckingAccountRepository, CheckingAccountRepository>();
             services.AddTransient<IEntryRepository, EntryRepository>();

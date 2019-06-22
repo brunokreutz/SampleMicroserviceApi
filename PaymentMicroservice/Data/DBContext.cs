@@ -3,9 +3,9 @@ using PaymentMicroservice.Core.Models;
 
 namespace Data
 {
-    public class DBContext : DbContext
+    public class TransactionContext : DbContext
     {
-        public DBContext(DbContextOptions<DBContext> options)
+        public TransactionContext(DbContextOptions<TransactionContext> options)
            : base(options)
         {
         }

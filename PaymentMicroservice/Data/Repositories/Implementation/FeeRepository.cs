@@ -8,9 +8,9 @@ namespace PaymentMicroservice.Data.Repositories
 {
     public class FeeRepository : IFeeRepository, IDisposable
     {
-        private readonly DBContext _context;
+        private readonly TransactionContext _context;
 
-        public FeeRepository(DBContext context)
+        public FeeRepository(TransactionContext context)
         {
             _context = context;
         }

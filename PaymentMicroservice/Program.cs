@@ -7,7 +7,7 @@ using PaymentMicroservice.Core.Models;
 using System;
 using System.Linq;
 
-namespace Microservice_Simple_API
+namespace PaymentMicroservice
 {
     public class Program
     {
@@ -18,9 +18,9 @@ namespace Microservice_Simple_API
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-                var context = services.GetRequiredService<DBContext>();
+                var context = services.GetRequiredService<TransactionContext>();
 
-                LoadInitialData(services);
+                SeedData.PopulateDatabase(services);
             }
 
             host.Run();
@@ -29,54 +29,6 @@ namespace Microservice_Simple_API
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();
-        private static void LoadInitialData(IServiceProvider serviceProvider)
-        {
-            using (var context = new DBContext(serviceProvider.GetRequiredService<DbContextOptions<DBContext>>()))
-            {
-                // Look for any board games.
-                if (context.Fees.Any())
-                {
-                    return;   // Data was already seeded
-                }
-
-                context.Fees.AddRange(
-                    new Fee
-                    {
-                        Id = 1,
-                        NumberOfPortions = 1,
-                        Value = 3.79
-
-                    },
-                    new Fee
-                    {
-                        Id = 2,
-                        NumberOfPortions = 2,
-                        Value = 5.78
-
-                    },
-                    new Fee
-                    {
-                        Id = 3,
-                        NumberOfPortions = 3,
-                        Value = 7.77
-
-                    });
-
-                context.CheckingAccounts.AddRange(
-                    new CheckingAccount
-                    {
-                        Id = 1,
-                        Balance = 1000000
-
-                    },
-                    new CheckingAccount
-                    {
-                        Id = 2,
-                        Balance = 1000000
-
-                    });
-                context.SaveChanges();
-            }
-        }
+        
     }
 }

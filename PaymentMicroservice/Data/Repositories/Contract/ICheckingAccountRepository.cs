@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Microservice_Simple_API.Repositories
+namespace PaymentMicroservice.Repositories
 {
     public interface ICheckingAccountRepository : IDisposable
     {

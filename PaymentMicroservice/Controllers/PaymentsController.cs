@@ -4,7 +4,7 @@ using PaymentMicroservice.Managers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Microservice_Simple_API.Controllers
+namespace PaymentMicroservice.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

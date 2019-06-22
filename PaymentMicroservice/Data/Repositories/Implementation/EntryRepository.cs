@@ -6,9 +6,9 @@ namespace PaymentMicroservice.Data.Repositories
 {
     public class EntryRepository : IEntryRepository, IDisposable
     {
-        private readonly DBContext _context;
+        private readonly TransactionContext _context;
 
-        public EntryRepository(DBContext context)
+        public EntryRepository(TransactionContext context)
         {
             _context = context;
         }

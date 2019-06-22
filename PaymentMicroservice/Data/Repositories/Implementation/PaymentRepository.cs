@@ -7,8 +7,8 @@ namespace PaymentMicroservice.Data.Repositories
 {
     public class PaymentRepository : IPaymentRepostory, IDisposable
     {
-        private readonly DBContext _context;
-        public PaymentRepository(DBContext context)
+        private readonly TransactionContext _context;
+        public PaymentRepository(TransactionContext context)
         {
             _context = context;
         }

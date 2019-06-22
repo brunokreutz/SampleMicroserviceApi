@@ -1,5 +1,5 @@
 ﻿using Data;
-using Microservice_Simple_API.Repositories;
+using PaymentMicroservice.Repositories;
 using PaymentMicroservice.Core.Models;
 using System;
 using System.Threading.Tasks;
@@ -8,9 +8,9 @@ namespace PaymentMicroservice.Data.Repositories
 {
     public class CheckingAccountRepository : ICheckingAccountRepository, IDisposable
     {
-        private readonly DBContext _context;
+        private readonly TransactionContext _context;
 
-        public CheckingAccountRepository(DBContext context)
+        public CheckingAccountRepository(TransactionContext context)
         {
             _context = context;
         }
