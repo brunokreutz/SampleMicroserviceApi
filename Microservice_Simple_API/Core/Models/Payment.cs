@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MicroserviceSimpleAPI.Core.Models
+namespace PaymentMicroservice.Core.Models
 {
     public class Payment
     {
@@ -10,9 +10,12 @@ namespace MicroserviceSimpleAPI.Core.Models
         public int DestinationAccountId { get; set; }
         public DateTime DateTime { get; set; }
 
-
-        public Payment()
+        public Payment(double amount, int sourceAccountId, int destinationAccountId, DateTime dateTime)
         {
+            Amount = amount;
+            SourceAccountId = sourceAccountId;
+            DestinationAccountId = destinationAccountId;
+            DateTime = dateTime;
         }
     }
 }

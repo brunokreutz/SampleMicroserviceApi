@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MicroserviceSimpleAPI.Core.Models
+namespace PaymentMicroservice.Core.Models
 {
     public class Entry
     {

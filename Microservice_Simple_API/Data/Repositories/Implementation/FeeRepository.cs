@@ -1,9 +1,10 @@
-﻿using MicroserviceSimpleAPI.Core;
-using MicroserviceSimpleAPI.Core.Models;
+﻿using Data;
+using PaymentMicroservice.Core.Models;
+using PaymentMicroservice.Repositories;
 using System;
 using System.Linq;
 
-namespace MicroserviceSimpleAPI.Repositories
+namespace PaymentMicroservice.Data.Repositories
 {
     public class FeeRepository : IFeeRepository, IDisposable
     {

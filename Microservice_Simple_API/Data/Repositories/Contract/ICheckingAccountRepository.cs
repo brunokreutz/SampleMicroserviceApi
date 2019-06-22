@@ -1,5 +1,4 @@
-﻿using Microservice_Simple_API.Core;
-using Microservice_Simple_API.Core.Models;
+﻿using PaymentMicroservice.Core.Models;
 using System;
 using System.Threading.Tasks;
 

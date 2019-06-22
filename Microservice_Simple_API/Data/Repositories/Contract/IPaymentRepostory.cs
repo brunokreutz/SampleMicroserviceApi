@@ -1,9 +1,8 @@
-﻿using MicroserviceSimpleAPI.Core;
-using MicroserviceSimpleAPI.Core.Models;
+﻿using PaymentMicroservice.Core.Models;
 using System;
 using System.Threading.Tasks;
 
-namespace MicroserviceSimpleAPI.Repositories
+namespace PaymentMicroservice.Data.Repositories
 {
     interface IPaymentRepostory : IDisposable
     {

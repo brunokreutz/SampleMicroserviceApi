@@ -1,4 +1,4 @@
-﻿namespace Microservice_Simple_API.Core.Models
+﻿namespace PaymentMicroservice.Core.Models
 {
     public class CheckingAccount
     {

@@ -1,4 +1,4 @@
-﻿namespace MicroserviceSimpleAPI.Core.Enums
+﻿namespace PaymentMicroservice.Core.Enums
 {
     public enum EntryTypeEnum
     {

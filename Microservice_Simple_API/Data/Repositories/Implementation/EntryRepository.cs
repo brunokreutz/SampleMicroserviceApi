@@ -1,8 +1,8 @@
-﻿using MicroserviceSimpleAPI.Core;
-using MicroserviceSimpleAPI.Core.Models;
+﻿using Data;
+using PaymentMicroservice.Core.Models;
 using System;
 
-namespace MicroserviceSimpleAPI.Repositories
+namespace PaymentMicroservice.Data.Repositories
 {
     public class EntryRepository : IEntryRepository, IDisposable
     {

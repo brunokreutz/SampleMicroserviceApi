@@ -1,9 +1,9 @@
-﻿using Microservice_Simple_API.Core.Models;
-using MicroserviceSimpleAPI.Core;
+﻿using Data;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using PaymentMicroservice.Core.Models;
 using System;
 using System.Linq;
 
@@ -39,28 +39,28 @@ namespace Microservice_Simple_API
                     return;   // Data was already seeded
                 }
 
-                //context.Fees.AddRange(
-                //    new Fee
-                //    {
-                //        Id = 0,
-                //        NumberOfPortions = 1,
-                //        Value = 3.79
+                context.Fees.AddRange(
+                    new Fee
+                    {
+                        Id = 1,
+                        NumberOfPortions = 1,
+                        Value = 3.79
 
-                //    },
-                //    new Fee
-                //    {
-                //        Id = 1,
-                //        NumberOfPortions = 2,
-                //        Value = 5.78
+                    },
+                    new Fee
+                    {
+                        Id = 2,
+                        NumberOfPortions = 2,
+                        Value = 5.78
 
-                //    },
-                //    new Fee
-                //    {
-                //        Id = 2,
-                //        NumberOfPortions = 3,
-                //        Value = 7.77
+                    },
+                    new Fee
+                    {
+                        Id = 3,
+                        NumberOfPortions = 3,
+                        Value = 7.77
 
-                //    });
+                    });
 
                 context.CheckingAccounts.AddRange(
                     new CheckingAccount

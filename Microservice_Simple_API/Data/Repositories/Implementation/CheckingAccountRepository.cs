@@ -1,11 +1,10 @@
-﻿using Microservice_Simple_API.Core;
-using Microservice_Simple_API.Core.Models;
+﻿using Data;
 using Microservice_Simple_API.Repositories;
-using MicroserviceSimpleAPI.Core;
+using PaymentMicroservice.Core.Models;
 using System;
 using System.Threading.Tasks;
 
-namespace MicroserviceSimpleAPI.Repositories
+namespace PaymentMicroservice.Data.Repositories
 {
     public class CheckingAccountRepository : ICheckingAccountRepository, IDisposable
     {

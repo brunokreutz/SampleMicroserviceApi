@@ -1,10 +1,7 @@
-﻿using Microservice_Simple_API.Core;
-using Microservice_Simple_API.Core.Models;
-using MicroserviceSimpleAPI.Core;
-using MicroserviceSimpleAPI.Core.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using PaymentMicroservice.Core.Models;
 
-namespace MicroserviceSimpleAPI.Core
+namespace Data
 {
     public class DBContext : DbContext
     {
