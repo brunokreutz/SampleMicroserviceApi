@@ -6,7 +6,7 @@ namespace PaymentMicroservice.Managers
 {
     public interface IPaymentManager
     {
-        Task<Payment> PostPayment(PaymentViewPost paymentViewPost);
+        Task<PaymentViewPostOutput> PostPayment(PaymentViewPost paymentViewPost);
         Task<Payment> GetPayment(int id);
     }
 }

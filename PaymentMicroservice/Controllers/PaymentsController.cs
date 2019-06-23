@@ -49,7 +49,8 @@ namespace PaymentMicroservice.Controllers
 
             if (payment != null)
             {
-                return Created("/" + result.Id, result);
+                //if you want to return the created object with status code 201 use Created("/" + result.Id, result);
+                return Ok(result);
             }
             else
             {

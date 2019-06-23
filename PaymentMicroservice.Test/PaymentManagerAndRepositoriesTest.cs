@@ -8,9 +8,6 @@ using PaymentMicroservice.Data.Repositories;
 using PaymentMicroservice.Managers;
 using PaymentMicroservice.Repositories;
 using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace PaymentMicroservice.Test
@@ -28,7 +25,7 @@ namespace PaymentMicroservice.Test
                    .UseStartup<Startup>());
             SeedData.PopulateDatabase(server.Host.Services);
 
-            _checkingAccountRepository = (ICheckingAccountRepository) server.Host.Services.GetService(typeof(ICheckingAccountRepository));
+            _checkingAccountRepository = (ICheckingAccountRepository)server.Host.Services.GetService(typeof(ICheckingAccountRepository));
             _paymentRepository = (IPaymentRepository)server.Host.Services.GetService(typeof(IPaymentRepository));
             _feeRepository = (IFeeRepository)server.Host.Services.GetService(typeof(IFeeRepository));
             _entryRepository = (IEntryRepository)server.Host.Services.GetService(typeof(IEntryRepository));
@@ -55,19 +52,19 @@ namespace PaymentMicroservice.Test
             Assert.AreEqual(destinationEntries.Count, 3);
 
             var i = 0;
-            foreach (Entry entry in sourceEntries)
+            foreach (Installment entry in sourceEntries)
             {
                 Assert.AreEqual((107.77 / 3), entry.Amount, 0.01);
-                Assert.AreEqual(EntryTypeEnum.DEBIT.ToString(), entry.Type);
+                Assert.AreEqual(InstallmentTypeEnum.DEBIT.ToString(), entry.Type);
                 Assert.AreEqual(DateTime.Now.AddMonths(i).ToShortDateString(), entry.Date.ToShortDateString());
                 i += 1;
             }
 
             i = 0;
-            foreach (Entry entry in destinationEntries)
+            foreach (Installment entry in destinationEntries)
             {
                 Assert.AreEqual((107.77 / 3), entry.Amount, 0.01);
-                Assert.AreEqual(EntryTypeEnum.CREDIT.ToString(), entry.Type);
+                Assert.AreEqual(InstallmentTypeEnum.CREDIT.ToString(), entry.Type);
                 Assert.AreEqual(DateTime.Now.AddMonths(i).ToShortDateString(), entry.Date.ToShortDateString());
                 i += 1;
             }
@@ -76,7 +73,7 @@ namespace PaymentMicroservice.Test
         [TestMethod]
         public async Task PostPaymentAmountTest()
         {
-            var manager = new PaymentManager(_checkingAccountRepository,_paymentRepository,_feeRepository,_entryRepository);
+            var manager = new PaymentManager(_checkingAccountRepository, _paymentRepository, _feeRepository, _entryRepository);
 
             Payment payment = new Payment();
             payment.SourceAccountId = 1;
@@ -84,11 +81,11 @@ namespace PaymentMicroservice.Test
             payment.Amount = 100;
             payment.NumberOfPortions = 1;
 
-            var value = payment.Amount * (100 + _feeRepository.GetFeeByPortion(payment.NumberOfPortions).Value)/100;
+            var value = payment.Amount * (100 + _feeRepository.GetFeeByPortion(payment.NumberOfPortions).Value) / 100;
 
             var result = await manager.PostPayment(new PaymentViewPost(payment));
-            Assert.AreEqual(value, result.Amount);
-            Assert.AreEqual(103.79, result.Amount);
+            Assert.AreEqual(value, result.NetValue);
+            Assert.AreEqual(103.79, result.NetValue);
         }
 
         [TestMethod]
@@ -105,8 +102,8 @@ namespace PaymentMicroservice.Test
             var value = payment.Amount * (100 + _feeRepository.GetFeeByPortion(payment.NumberOfPortions).Value) / 100;
 
             var result = await manager.PostPayment(new PaymentViewPost(payment));
-            Assert.AreEqual(value, result.Amount);
-            Assert.AreEqual(105.78, result.Amount);
+            Assert.AreEqual(value, result.NetValue);
+            Assert.AreEqual(105.78, result.NetValue);
         }
 
         [TestMethod]
@@ -123,8 +120,8 @@ namespace PaymentMicroservice.Test
             var value = payment.Amount * (100 + _feeRepository.GetFeeByPortion(payment.NumberOfPortions).Value) / 100;
 
             var result = await manager.PostPayment(new PaymentViewPost(payment));
-            Assert.AreEqual(value, result.Amount, 0.01);
-            Assert.AreEqual(107.77, result.Amount, 0.01);
+            Assert.AreEqual(value, result.NetValue, 0.01);
+            Assert.AreEqual(107.77, result.NetValue, 0.01);
         }
 
         [TestMethod]
@@ -139,7 +136,8 @@ namespace PaymentMicroservice.Test
             payment.NumberOfPortions = 3;
 
             var result = await manager.PostPayment(new PaymentViewPost(payment));
-            Assert.AreEqual(DateTime.Now.ToShortDateString(), result.DateTime.ToShortDateString());
+            var lastPayment = _paymentRepository.GetLastPayment();
+            Assert.AreEqual(DateTime.Now.ToShortDateString(), lastPayment.DateTime.ToShortDateString());
         }
 
         [TestMethod]
@@ -153,7 +151,7 @@ namespace PaymentMicroservice.Test
             payment.Amount = 100;
             payment.NumberOfPortions = 3;
 
-            var sourceBalance =  _checkingAccountRepository.GetAccountById(payment.SourceAccountId).Result.Balance;
+            var sourceBalance = _checkingAccountRepository.GetAccountById(payment.SourceAccountId).Result.Balance;
             var destinationBalance = _checkingAccountRepository.GetAccountById(payment.DestinationAccountId).Result.Balance;
 
             var result = await manager.PostPayment(new PaymentViewPost(payment));
@@ -161,8 +159,8 @@ namespace PaymentMicroservice.Test
             var sourceBalanceAfter = _checkingAccountRepository.GetAccountById(payment.SourceAccountId).Result.Balance;
             var destinationBalanceAfter = _checkingAccountRepository.GetAccountById(payment.DestinationAccountId).Result.Balance;
 
-            Assert.AreEqual(sourceBalance - 107.77/3, sourceBalanceAfter, 0.01);
-            Assert.AreEqual(destinationBalance + 107.77/3, destinationBalanceAfter, 0.01);
+            Assert.AreEqual(sourceBalance - 107.77 / 3, sourceBalanceAfter, 0.01);
+            Assert.AreEqual(destinationBalance + 107.77 / 3, destinationBalanceAfter, 0.01);
             Assert.AreEqual(sourceBalance - payment.Amount * 1.0777 / 3, sourceBalanceAfter, 0.01);
             Assert.AreEqual(destinationBalance + payment.Amount * 1.0777 / 3, destinationBalanceAfter, 0.01);
 

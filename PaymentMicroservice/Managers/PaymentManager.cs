@@ -22,7 +22,7 @@ namespace PaymentMicroservice.Managers
             _feeRepository = feeRepository;
             _entryRepository = entryRepository;
         }
-        public async Task<Payment> PostPayment(PaymentViewPost paymentViewPost)
+        public async Task<PaymentViewPostOutput> PostPayment(PaymentViewPost paymentViewPost)
         {
             Fee fee = _feeRepository.GetFeeByPortion(paymentViewPost.NumberOfPortions);
             CheckingAccount sourceAccount = await _checkingAccountRepository.GetAccountById(paymentViewPost.SourceAccountId);
@@ -39,18 +39,17 @@ namespace PaymentMicroservice.Managers
             destinationAccount.Balance = destinationAccount.Balance + portion;
 
             var payment = new Payment(paymentViewPost);
-           
+
             for (int i = 0; i < fee.NumberOfPortions; i++)
             {
-                _entryRepository.InsertEntry(new Entry(portion, DateTime.Now.AddMonths(i), EntryTypeEnum.DEBIT.ToString(), paymentViewPost.SourceAccountId));
-                _entryRepository.InsertEntry(new Entry(portion, DateTime.Now.AddMonths(i), EntryTypeEnum.CREDIT.ToString(), paymentViewPost.DestinationAccountId));
+                _entryRepository.InsertEntry(new Installment(portion, DateTime.Now.AddMonths(i), InstallmentTypeEnum.DEBIT.ToString(), paymentViewPost.SourceAccountId));
+                _entryRepository.InsertEntry(new Installment(portion, DateTime.Now.AddMonths(i), InstallmentTypeEnum.CREDIT.ToString(), paymentViewPost.DestinationAccountId));
             }
-            
 
             _paymentRepository.InsertPayment(payment);
             _checkingAccountRepository.Save();
 
-            return payment;
+            return new PaymentViewPostOutput(paymentViewPost.Amount, sourceAccount.Balance, destinationAccount.Balance);
 
         }
 

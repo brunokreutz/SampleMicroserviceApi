@@ -8,5 +8,6 @@ namespace PaymentMicroservice.Data.Repositories
     {
         Task<Payment> GetPaymentById(int id);
         void InsertPayment(Payment payment);
+        Payment GetLastPayment();
     }
 }

@@ -2,9 +2,9 @@
 
 namespace PaymentMicroservice.Core.Models
 {
-    public class Entry
+    public class Installment
     {
-        public Entry(double amount, DateTime date, string type, int checkingAccountId)
+        public Installment(double amount, DateTime date, string type, int checkingAccountId)
         {
             Amount = amount;
             Date = date;

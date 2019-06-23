@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -15,7 +13,8 @@ namespace PaymentMicroservice.Test
     public class PaymentMicroserviceIntegrationTest
     {
         HttpClient _client;
-        public PaymentMicroserviceIntegrationTest() {
+        public PaymentMicroserviceIntegrationTest()
+        {
             var server = new TestServer(new WebHostBuilder()
                    .UseStartup<Startup>());
             SeedData.PopulateDatabase(server.Host.Services);
@@ -30,7 +29,7 @@ namespace PaymentMicroservice.Test
 
             var response = await _client.PostAsync("/api/payments", str);
 
-            Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
+            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
         }
 
         [TestMethod]

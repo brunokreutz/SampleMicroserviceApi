@@ -12,6 +12,6 @@ namespace Data
         public DbSet<CheckingAccount> CheckingAccounts { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Fee> Fees { get; set; }
-        public DbSet<Entry> Entries { get; set; }
+        public DbSet<Installment> Entries { get; set; }
     }
 }

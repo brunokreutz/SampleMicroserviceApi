@@ -1,6 +1,6 @@
 ﻿namespace PaymentMicroservice.Core.Enums
 {
-    public enum EntryTypeEnum
+    public enum InstallmentTypeEnum
     {
         CREDIT, DEBIT
     }
