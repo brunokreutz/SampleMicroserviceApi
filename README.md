@@ -21,13 +21,13 @@ Número de parcelas | Taxa
 Valor,
 Parcelas,
 Conta origem,
-Conta destino,
+Conta destino.
 
 #### Parâmetros de saída:
 http status code,
 Valor líquido,
 Saldo conta origem,
-Saldo conta destino
+Saldo conta destino.
 
 ## Estrutura
 #### Lançamentos (Installments)
@@ -55,7 +55,7 @@ Number of Installments | Fee
 Value,
 Portions,
 Source account,
-Destination account,
+Destination account.
 
 #### Output Parameters:
 http status code,
