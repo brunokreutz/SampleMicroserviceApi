@@ -4,7 +4,7 @@ A sample Microservice API implementation with test cases.
 
 [Português](#regra-de-negócio)
 - [Regra de Negócio](#regra-de-negócio)
-- [Dominio](#dominio)
+- [Domínio](#domínio)
 - [Repostas](#respostas)
 
 [English](#business-rule)
