@@ -24,7 +24,7 @@ namespace PaymentMicroservice.Test
         [TestMethod]
         public async Task PostTransaction()
         {
-            var json = "{\"Amount\":100.0,\"SourceAccountId\":1,\"DestinationAccountId\":2,\"NumberOfPortions\":2}";
+            var json = "{\"Amount\":100.0,\"SourceAccountId\":1,\"DestinationAccountId\":2,\"NumberOfInstallments\":2}";
             var str = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await _client.PostAsync("/api/payments", str);
@@ -35,7 +35,7 @@ namespace PaymentMicroservice.Test
         [TestMethod]
         public async Task PostInvalidTransaction()
         {
-            var json = "{\"Amount\":100.0,\"SourceAccountId\":1,\"DestinationAccountId\":2,\"NumberOfPortions\":4}";
+            var json = "{\"Amount\":100.0,\"SourceAccountId\":1,\"DestinationAccountId\":2,\"NumberOfInstallments\":4}";
             var str = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await _client.PostAsync("/api/payments", str);
@@ -46,7 +46,7 @@ namespace PaymentMicroservice.Test
         [TestMethod]
         public async Task PostInvalidTransaction2()
         {
-            var json = "{\"Amount\":-100.0,\"SourceAccountId\":1,\"DestinationAccountId\":2,\"NumberOfPortions\":2}";
+            var json = "{\"Amount\":-100.0,\"SourceAccountId\":1,\"DestinationAccountId\":2,\"NumberOfInstallments\":2}";
             var str = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await _client.PostAsync("/api/payments", str);
@@ -57,7 +57,7 @@ namespace PaymentMicroservice.Test
         [TestMethod]
         public async Task PostInvalidTransaction3()
         {
-            var json = "{\"Amount\":100.0,\"SourceAccountId\":1,\"DestinationAccountId\":2,\"NumberOfPortions\":0}";
+            var json = "{\"Amount\":100.0,\"SourceAccountId\":1,\"DestinationAccountId\":2,\"NumberOfInstallments\":0}";
             var str = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await _client.PostAsync("/api/payments", str);

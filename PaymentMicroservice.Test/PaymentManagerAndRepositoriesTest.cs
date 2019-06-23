@@ -41,7 +41,7 @@ namespace PaymentMicroservice.Test
             payment.SourceAccountId = 1;
             payment.DestinationAccountId = 2;
             payment.Amount = 100;
-            payment.NumberOfPortions = 3;
+            payment.NumberOfInstallments = 3;
 
             var result = await manager.PostPayment(new PaymentViewPost(payment));
 
@@ -79,9 +79,9 @@ namespace PaymentMicroservice.Test
             payment.SourceAccountId = 1;
             payment.DestinationAccountId = 2;
             payment.Amount = 100;
-            payment.NumberOfPortions = 1;
+            payment.NumberOfInstallments = 1;
 
-            var value = payment.Amount * (100 + _feeRepository.GetFeeByPortion(payment.NumberOfPortions).Value) / 100;
+            var value = payment.Amount * (100 + _feeRepository.GetFeeByPortion(payment.NumberOfInstallments).Value) / 100;
 
             var result = await manager.PostPayment(new PaymentViewPost(payment));
             Assert.AreEqual(value, result.NetValue);
@@ -97,9 +97,9 @@ namespace PaymentMicroservice.Test
             payment.SourceAccountId = 1;
             payment.DestinationAccountId = 2;
             payment.Amount = 100;
-            payment.NumberOfPortions = 2;
+            payment.NumberOfInstallments = 2;
 
-            var value = payment.Amount * (100 + _feeRepository.GetFeeByPortion(payment.NumberOfPortions).Value) / 100;
+            var value = payment.Amount * (100 + _feeRepository.GetFeeByPortion(payment.NumberOfInstallments).Value) / 100;
 
             var result = await manager.PostPayment(new PaymentViewPost(payment));
             Assert.AreEqual(value, result.NetValue);
@@ -115,9 +115,9 @@ namespace PaymentMicroservice.Test
             payment.SourceAccountId = 1;
             payment.DestinationAccountId = 2;
             payment.Amount = 100;
-            payment.NumberOfPortions = 3;
+            payment.NumberOfInstallments = 3;
 
-            var value = payment.Amount * (100 + _feeRepository.GetFeeByPortion(payment.NumberOfPortions).Value) / 100;
+            var value = payment.Amount * (100 + _feeRepository.GetFeeByPortion(payment.NumberOfInstallments).Value) / 100;
 
             var result = await manager.PostPayment(new PaymentViewPost(payment));
             Assert.AreEqual(value, result.NetValue, 0.01);
@@ -133,7 +133,7 @@ namespace PaymentMicroservice.Test
             payment.SourceAccountId = 1;
             payment.DestinationAccountId = 2;
             payment.Amount = 100;
-            payment.NumberOfPortions = 3;
+            payment.NumberOfInstallments = 3;
 
             var result = await manager.PostPayment(new PaymentViewPost(payment));
             var lastPayment = _paymentRepository.GetLastPayment();
@@ -149,7 +149,7 @@ namespace PaymentMicroservice.Test
             payment.SourceAccountId = 1;
             payment.DestinationAccountId = 2;
             payment.Amount = 100;
-            payment.NumberOfPortions = 3;
+            payment.NumberOfInstallments = 3;
 
             var sourceBalance = _checkingAccountRepository.GetAccountById(payment.SourceAccountId).Result.Balance;
             var destinationBalance = _checkingAccountRepository.GetAccountById(payment.DestinationAccountId).Result.Balance;

@@ -10,7 +10,7 @@ namespace PaymentMicroservice.Core.Models
         public int SourceAccountId { get; set; }
         public int DestinationAccountId { get; set; }
         public DateTime DateTime { get; set; }
-        public int NumberOfPortions { get; set; }
+        public int NumberOfInstallments { get; set; }
 
         public Payment()
         {
@@ -22,7 +22,7 @@ namespace PaymentMicroservice.Core.Models
             SourceAccountId = paymentViewPost.SourceAccountId;
             DestinationAccountId = paymentViewPost.DestinationAccountId;
             DateTime = DateTime.Now;
-            NumberOfPortions = paymentViewPost.NumberOfPortions;
+            NumberOfInstallments = paymentViewPost.NumberOfPortions;
         }
     }
 }

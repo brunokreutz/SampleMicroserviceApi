@@ -16,7 +16,7 @@ namespace PaymentMicroservice.Core.ModelVIew
             Amount = payment.Amount;
             SourceAccountId = payment.SourceAccountId;
             DestinationAccountId = payment.DestinationAccountId;
-            NumberOfPortions = payment.NumberOfPortions;
+            NumberOfPortions = payment.NumberOfInstallments;
         }
     }
 }
