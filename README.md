@@ -4,12 +4,12 @@ A sample Microservice API implementation with test cases.
 
 [Português](#regra-de-negócio)
 - [Regra de Negócio](#regra-de-negócio)
-- [Estrutura](#estrutura)
+- [Dominio](#dominio)
 - [Repostas](#respostas)
 
 [English](#business-rule)
 - [Business Rule](#business-rule)
-- [Structure](#structure)
+- [Domain](#domain)
 
 ## Regra de negócio:
 Efetuar um pagamento junto com o débito em uma conta corrente e o credito em outra conta.
@@ -34,7 +34,7 @@ Valor líquido,
 Saldo conta origem,
 Saldo conta destino.
 
-## Estrutura
+## Domínio
 #### Lançamentos (Installments)
 Os lançamentos correspondem as operações de credito ou debito das parcelas na conta corrente. Caso o numero de parcelas for maior
 do que 1, o mes da data do lançamento é incrementado a cada nova parcela.   
@@ -82,7 +82,7 @@ Net value (Transaction value after fees),
 Source account balance,
 Destination account balance.
 
-## Structure
+## Domain
 #### Entry
 The entries correspond to the credit or debit transactions of the installments in the current account. If the number of installments is greater
 than 1, the month of the transaction date is incremented with each new installment.
