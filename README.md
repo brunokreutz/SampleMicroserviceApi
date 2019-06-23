@@ -23,10 +23,10 @@ Número de parcelas | Taxa
 3  | 7,77 %
 
 #### Parâmetros de entrada:
-Valor,
-Parcelas,
-Conta origem,
-Conta destino.
+Valor (double Amount),
+Parcelas (int NumberOfInstallments),
+Conta Orgiem (int SourceAccountId),
+Conta Destino (int DestinationAccountId).
 
 #### Parâmetros de saída:
 http status code,
@@ -58,6 +58,7 @@ Uma arquitetura baseada em microservices utiliza pequenos serviços independente
 
 Processamento síncrono ocorre de maneira sequencial, este modelo "trava" a execução do programa até que a requisição seja atendida. Já no processamento assíncrono não necessariamente existe esse bloqueio, o programa pode continuar sua execução movendo para outras tarefas enquanto o resultado da requisição não chega. Quando o resultado de uma operação não interfere na outra você pode optar por utilizar o processamento assíncrono, como no caso de recuperar vários objetos de apis diferentes ao mesmo tempo, o que provavelmente acarretará num ganho de velocidade de processamento. Entretanto se alguma dessas consultas depender de outra, as que forem interdependentes devem ser processadas de maneira síncrona.
 
+#
 ## Business rule:
 Make a payment along with the debit in a checking account and the credit in another account.
 A payment can be break down in several pieces (portions). These portions are debited/credited in the following months.
@@ -70,10 +71,10 @@ Number of Installments | Fee
 3 | 7.77%
 
 #### Input Parameters:
-Value,
-Portions,
-Source account,
-Destination account.
+Amount (double Amount),
+Number Of Installments (int NumberOfInstallments),
+Source Account (int SourceAccountId),
+Destination Account (int DestinationAccountId).
 
 #### Output Parameters:
 http status code,
