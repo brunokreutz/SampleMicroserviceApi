@@ -40,6 +40,7 @@ Os lançamentos correspondem as operações de credito ou debito das parcelas na
 do que 1, o mes da data do lançamento é incrementado a cada nova parcela.   
 #### Conta Corrente (CheckingAccount)
 A conta corrente corresponde a conta do cliente.
+Se o pagamento for parcelado, apenas o valor da primeira parcela é creditado/debitado imediatamente.
 #### Pagamento (Payment)
 O pagamento representa a transação entre os clientes. A taxa das parcelas é incorporada ao valor do pagamento.
 #### Taxas (Fee)
@@ -83,11 +84,12 @@ Source account balance,
 Destination account balance.
 
 ## Domain
-#### Entry
-The entries correspond to the credit or debit transactions of the installments in the current account. If the number of installments is greater
+#### Installment
+The installments correspond to the credit or debit transactions of the installments in the current account. If the number of installments is greater
 than 1, the month of the transaction date is incremented with each new installment.
 #### CheckingAccount
-The current account corresponds to the customer's account.
+The checking account corresponds to the customer's account.
+If the payment have more than one installment, only the first installment is credited/debited immediately.
 #### Payment 
 Payment represents the transaction between customers. The installment rate is incorporated into the payment amount.
 #### Fee 
