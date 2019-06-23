@@ -61,7 +61,7 @@ Processamento síncrono ocorre de maneira sequencial, este modelo "trava" a exec
 #
 ## Business rule:
 Make a payment along with the debit in a checking account and the credit in another account.
-A payment can be break down in several pieces (portions). These portions are debited/credited in the following months.
+A payment can be break down in several installments. These installments are debited/credited in the following months.
 The net amount to be credited must be calculated over the following rates:
 
 Number of Installments | Fee 
